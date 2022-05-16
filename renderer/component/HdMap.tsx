@@ -1,18 +1,14 @@
-import { Map, View } from "ol";
+import { View } from "ol";
 import PerspectiveMap from 'ol-ext/map/PerspectiveMap';
 // import ol from 'openlayers';
-import { Tile } from 'ol/layer';
-import { OSM, XYZ } from 'ol/source';
-import 'ol/ol.css';
 import 'ol-ext/map/PerspectiveMap.css';
-import { useEffect, useRef, useState } from "react";
-import MapContext from "./context/MapContext";
 import { defaults as defaultInteraction } from 'ol/interaction';
-import proj4 from 'proj4';
+import 'ol/ol.css';
 import { register } from 'ol/proj/proj4';
-import dynamic from "next/dynamic";
-import Bottom from './Bottom'
-import { height } from "@mui/system";
+import proj4 from 'proj4';
+import { useEffect, useRef, useState } from "react";
+import Bottom from './Bottom';
+import MapContext from "./context/MapContext";
 proj4.defs([
     ['EPSG:5186', '+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=600000 +epllps']
 ]);
@@ -46,6 +42,28 @@ function HdMap({ children, zoom, center }) {
         let mapObject = new PerspectiveMap(options);
         // mapObject.setTarget(mapRef.current);
         setMap(mapObject);
+
+
+        const hdMapRead = () => {
+            console.log("DD");
+            fetch('/hdmap/etridb_plus_LAYER_LN_LINK.txt')
+                .then((r) => r.text())
+                .then(text => {
+                    text.split("\r\n")
+                        .forEach((array) => {
+                            array = array.trim();
+                            if (array === "") return;
+                            else console.log(array)
+                        });
+                });
+            // let file = e.target.files[0];
+            // let fileReader = new FileReader();
+            // fileReader.onload = () => {
+            //     console.log(fileReader.result);
+            // };
+            // fileReader.readAsText(file);
+        }
+        hdMapRead();
     }, []);
 
     return (
