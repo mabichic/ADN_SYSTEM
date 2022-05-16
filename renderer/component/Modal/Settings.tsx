@@ -37,9 +37,7 @@ export default function Settings({ open, handleClose }) {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography>
                             <Chip variant="outlined" icon={<SettingsIcon />} label={`통신장치 => 전송속도 설정하기`} />
-                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <OutlinedInput fullWidth  value={`68 `}
@@ -67,9 +65,7 @@ export default function Settings({ open, handleClose }) {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography>
                             <Chip variant="outlined" icon={<SettingsIcon />} label={`통신장치 => IP 주소 설정하기`} />
-                        </Typography>
                     </AccordionSummary>
                     <AccordionDetails>
                         <OutlinedInput fullWidth  value={`255.255.255.255`}

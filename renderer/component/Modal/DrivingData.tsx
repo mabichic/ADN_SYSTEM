@@ -1,6 +1,6 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import SettingsIcon from '@mui/icons-material/Settings';
-import { Accordion, AccordionDetails, AccordionSummary, Chip, Modal, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Chip, InputAdornment, Modal, OutlinedInput, Typography } from "@mui/material";
 import { Box } from "@mui/system";
 import { useState } from "react";
 const style = {
@@ -37,14 +37,10 @@ export default function DrivingData({ open, handleClose }) {
                         aria-controls="panel1a-content"
                         id="panel1a-header"
                     >
-                        <Typography>
-                            <Chip variant="outlined" icon={<SettingsIcon />} label={`차량 주행 정보 입력`} />
-                        </Typography>
+                        <Chip variant="outlined" icon={<SettingsIcon />} label={`차량 주행 정보 입력`} />
                     </AccordionSummary>
                     <AccordionDetails>
-                        {/* <OutlinedInput fullWidth  value={`68 `}
-                            endAdornment={<InputAdornment position="end">{`Mbit/초`}</InputAdornment>}
-                        /> */}
+                        <Button>차량 주행 정보 입력</Button>
                     </AccordionDetails>
                 </Accordion>
                 <Accordion>
@@ -56,12 +52,10 @@ export default function DrivingData({ open, handleClose }) {
                         <Chip variant="outlined" icon={<SettingsIcon />} label={`차량 주행 정보 로그 파일 불러오기`} />
                     </AccordionSummary>
                     <AccordionDetails>
-                        {/* <OutlinedInput fullWidth  value={`100 `}
-                            endAdornment={<InputAdornment position="end">{`dB`}</InputAdornment>}
-                        /> */}
+                        <Button>차량 주행 정보 로그 파일 불러오기</Button>
                     </AccordionDetails>
                 </Accordion>
-                
+
             </Box>
 
         </Modal>
