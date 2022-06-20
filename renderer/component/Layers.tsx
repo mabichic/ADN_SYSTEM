@@ -4,13 +4,14 @@ import { useContext, useEffect, useState } from "react";
 import MapContext from "./context/MapContext";
 import HdMapStyle from "./HdMapStyle";
 import HdMapVectorLayer from "./layer/HdMapVectorLayer";
+import VworldTileLayer from "./layer/VworldTileLayer";
 import Converter from "./util/Converter";
 function Layers({ children }) {
     const map = useContext(MapContext);
     const [layers, setLayers] = useState([]);
     useEffect(() => {
         if (!map) return;
-        // setLayers([VworldTileLayer({ zIndex: 0, map: map })]);
+        setLayers([VworldTileLayer({ zIndex: 0, map: map })]);
 
         let dataSet = {
             type: "FeatureCollection",

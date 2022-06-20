@@ -12,6 +12,7 @@ import VectorSource from "ol/source/Vector";
 import { Icon, Style } from 'ol/style';
 import proj4 from 'proj4';
 import { useEffect, useRef, useState } from "react";
+import AlertImage from "./AlertImage";
 import Bottom from './Bottom';
 import MapContext from "./context/MapContext";
 proj4.defs([
@@ -25,14 +26,14 @@ register(proj4);
 function HdMap({ children, zoom, center }) {
     const [map, setMap] = useState(null);
     const mapRef = useRef(null);
-
+    const [visible, setVisible] = useState(false);
     useEffect(() => {
         let options = {
             layers: [],
             view: new View({
                 projection: 'EPSG:5186',
                 center: [232936.21828125, 420510.53421875],
-                zoom: 20,
+                zoom: 18,
                 minZoom: 8,
                 constrainResolution: true,
             }),
@@ -83,22 +84,22 @@ function HdMap({ children, zoom, center }) {
         mapObject.addLayer(vectorLayer);
 
         const clickEvt = () => {
-            if(click) return;
-            click = true; 
-
+            if (click) return;
+            click = true;
+            setVisible(true);
             const arr = ['232956.33171875', '420510.29296875', '232955.82984375', '420510.30046875', '232955.3278125', '420510.3078125', '232954.825625', '420510.31484375', '232954.32328125', '420510.32171875', '232953.8209375', '420510.32828125', '232953.3184375', '420510.3346875', '232952.8159375', '420510.3409375', '232952.31328125', '420510.34703125', '232951.81046875', '420510.35296875', '232951.30765625', '420510.35875', '232950.80484375', '420510.364375', '232950.30203125', '420510.37', '232949.7990625', '420510.37546875', '232949.2959375', '420510.38078125', '232948.79296875', '420510.38609375', '232948.28984375', '420510.39125', '232947.78671875', '420510.3965625', '232947.28359375', '420510.40171875', '232946.78046875', '420510.40671875', '232946.2771875', '420510.411875', '232945.7740625', '420510.41703125', '232945.2709375', '420510.4221875', '232944.76765625', '420510.4275', '232944.26453125', '420510.43265625', '232943.76125', '420510.43796875', '232943.258125', '420510.4434375', '232942.755', '420510.44890625', '232942.251875', '420510.454375', '232941.74875', '420510.46015625', '232941.24578125', '420510.4659375', '232940.74265625', '420510.471875', '232940.2396875', '420510.47796875', '232939.736875', '420510.484375', '232939.23390625', '420510.49078125', '232938.73125', '420510.4975', '232938.2284375', '420510.504375', '232937.72578125', '420510.51140625', '232937.22328125', '420510.51875', '232936.72078125', '420510.52640625', '232936.21828125', '420510.53421875'];
             var result = [];
-            for (let k= 0; k < arr.length; k += 2) result.push(arr.slice(k, k + 2).map(Number));
+            for (let k = 0; k < arr.length; k += 2) result.push(arr.slice(k, k + 2).map(Number));
             result.reverse();
             let z = 0;
-            let interval  = setInterval(function () {
+            let interval = setInterval(function () {
                 iconFeature.getGeometry().setCoordinates(result[z]);
                 z++;
-                if (z > 40){
+                if (z > 40) {
                     z = 0;
                     clearInterval(interval)
                     click = false;
-                } 
+                }
                 vectorSource.changed();
             }, 200);
         }
@@ -106,16 +107,19 @@ function HdMap({ children, zoom, center }) {
     }, []);
 
     return (
-        <MapContext.Provider value={map}>
-            <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                <div style={{ flexGrow: 1, backgroundColor: 'gray' }} >
-                    <div ref={mapRef} style={{ height: '100%' }} />
-                    {children}
+        <>
+            <AlertImage img={'images/detection.png'} left={50} visible = {visible} setVisible={setVisible}/>
+            <AlertImage img={'images/request.png'} left={300} visible = {visible} setVisible={setVisible}/>
+            <MapContext.Provider value={map}>
+                <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                    <div style={{ flexGrow: 1, backgroundColor: 'gray' }} >
+                        <div ref={mapRef} style={{ height: '100%' }} />
+                        {children}
+                    </div>
+                    <Bottom />
                 </div>
-                <Bottom />
-            </div>
-
-        </MapContext.Provider >
+            </MapContext.Provider >
+        </>
     )
 }
 export default HdMap;
