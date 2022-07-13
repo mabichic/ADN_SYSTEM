@@ -1,5 +1,6 @@
-import { app } from 'electron';
+import { app, ipcMain } from 'electron';
 import serve from 'electron-serve';
+import connectClient, { closeClient } from './client';
 import { createWindow } from './helpers';
 
 const isProd: boolean = process.env.NODE_ENV === 'production';
@@ -20,10 +21,16 @@ if (isProd) {
 
   if (isProd) {
     await mainWindow.loadURL('app://./home.html');
+    ipcMain.on("connectClient", (event, res)=> connectClient(mainWindow,res)); 
+    ipcMain.on("closeClient", (event, res)=> closeClient()); 
+    
   } else {
     const port = process.argv[2];
     await mainWindow.loadURL(`http://localhost:${port}/home`);
     mainWindow.webContents.openDevTools();
+    ipcMain.on("connectClient", (event, res)=> connectClient(mainWindow,res)); 
+    ipcMain.on("closeClient", (event, res)=> closeClient()); 
+    mainWindow.webContents.send("error", "why...");
   }
 })();
 

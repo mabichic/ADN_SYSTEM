@@ -1,14 +1,12 @@
-import DirectionsCarIcon from '@mui/icons-material/DirectionsCar';
 import SettingsIcon from '@mui/icons-material/Settings';
 import { BottomNavigation, BottomNavigationAction, Box, Card, CardContent, CardMedia, Typography } from "@mui/material";
 import { useEffect, useState } from "react";
 import DrivingData from './Modal/DrivingData';
 import DrivingNegotiation from "./Modal/DrivingNegotiation";
 import Settings from './Modal/Settings';
-import useAudio from "./useAudio";
 
 const Test = ({ serviceOpen, setServiceOpen }) => {
-    const [toggle] = useAudio("/audio/step1.wav");
+    // const [toggle] = useAudio("/audio/step1.wav");
     // const [open, setOepn] = useState(false);
     console.log(setServiceOpen);
     console.log(serviceOpen);
@@ -16,7 +14,7 @@ const Test = ({ serviceOpen, setServiceOpen }) => {
     const stepText = ['BSM 방송을 시작합니다.', '커넥티드카 접근이 감지되었습니다.', '양보를 요청합니다', '커넥티크카 접근이 감지되었습니다.', '운행상태로 복귀합니다']
     const stepImg = ["/images/class1.gif", "/images/classA-1.gif", "/images/step3.png", "/images/classA-1.gif",]
     useEffect(() => {
-        toggle(true);
+        // toggle(true);
         setServiceOpen(serviceOpen);
     }, [serviceOpen])
     const closeService = () => {
@@ -50,6 +48,7 @@ const Test = ({ serviceOpen, setServiceOpen }) => {
                         </Typography>
                     </CardContent>
                 </Card>
+                
             </Box>
         )
     }
@@ -98,11 +97,11 @@ const Bottom = () => {
             // }}
             >
                 <Box sx={{ flexGrow: 1 }} />
-                <BottomNavigationAction label="협력주행" icon={<DirectionsCarIcon />} onClick={dnHandleOpen} sx={{
+                {/* <BottomNavigationAction label="협력주행" icon={<DirectionsCarIcon />} onClick={dnHandleOpen} sx={{
                     backgroundImage: "linear-gradient(to bottom, #1F49D1, #132D7E)",
                     color: 'white',
                     // linearGradient : "( to right, yellow, red )"
-                }} />
+                }} /> */}
                 {/* <BottomNavigationAction label="주행데이터" icon={<ReadMoreIcon />} onClick={ddHandleOpen} sx={{backgroundColor:"#1F47BF", color:'white'}}/> */}
                 <BottomNavigationAction label="장치기능" icon={<SettingsIcon />} onClick={stHandleOpen} sx={{ backgroundImage: "linear-gradient(to bottom, #1F49D1, #132D7E)", color: 'white' }} />
             </BottomNavigation>
