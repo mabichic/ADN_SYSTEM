@@ -16,6 +16,7 @@ import { useEffect, useRef, useState } from "react";
 import AlertImage from "./AlertImage";
 import Bottom from './Bottom';
 import MapContext from "./context/MapContext";
+import IntentionsImage from "./IntentionsImage";
 import useAudio from "./useAudio";
 proj4.defs([
     ['EPSG:5186', '+proj=tmerc +lat_0=38 +lon_0=127 +k=1 +x_0=200000 +y_0=600000 +epllps']
@@ -29,11 +30,23 @@ register(proj4);
 
 function HdMap({ children, zoom, center }) {
     const [detectionAudio] = useAudio("/audio/step1.mp3");
-    const [requestAudio] = useAudio("/audio/step2.mp3");
+    const [requestAudio] = useAudio("/audio/request.mp3");
+    
+    const [mergintResphonseAudio] = useAudio("/audio/mergint_resphonse.mp3");
+    const [concessionResphonseAudio] = useAudio("/audio/concession_resphonse.mp3")
+    const [interruptReshponseAudio] = useAudio("/audio/interrupt_reshponse.mp3")
+    const [overtakingReshponseAudio] = useAudio("/audio/overtaking_reshponse.mp3")
+
     const [map, setMap] = useState(null);
     const mapRef = useRef(null);
     const [detectionVisible, setDetectionVisible] = useState(false);
+    
+    const [mergintVisible, setMergintVisible] = useState(false);
+    const [concessionVisible, setConcessionVisible] = useState(false);
+    const [interruptVisible, setInterruptVisible] = useState(false);
+    const [overtakingVisible, setOvertakingVisible] = useState(false);
     const [requestVisible, setRequestVisible] = useState(false);
+    const [resphonseVisible, setResphonseVisible] = useState(false);
     const [feature, setFeature] = useState(null);
     const [vector, setVector] = useState(null);
     const [moving, setMoving] = useState(false);
@@ -128,7 +141,7 @@ function HdMap({ children, zoom, center }) {
         
         ipcRenderer.on("latlon", (event, args) => {
             try {
-                let json = JSON.parse(args);
+                let json = args;
                 let coor = proj4('EPSG:4326', 'EPSG:5186', [Number(json.lon), Number(json.lat)]);
                 
                 feature.setStyle(() => {
@@ -160,28 +173,109 @@ function HdMap({ children, zoom, center }) {
                 console.log(err);
             }
         });
-        ipcRenderer.on("request", (event,args)=>{
+        ipcRenderer.on("mergintRequest", (event,args)=>{
             try{ 
                 setRequestVisible(true);
+                setMergintVisible(true);
                 requestAudio(true);
             }catch(err){
                 console.log(err);
             }
         });
+        ipcRenderer.on("interruptRequest", (event,args)=>{
+            try{ 
+                setRequestVisible(true);
+                setInterruptVisible(true);
+                requestAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        });
+
+        ipcRenderer.on("overtakingRequest", (event,args)=>{
+            try{ 
+                setRequestVisible(true);
+                setOvertakingVisible(true);
+                requestAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        });
+
+        ipcRenderer.on("concessionRequest", (event,args)=>{
+            try{ 
+                setRequestVisible(true);
+                setConcessionVisible(true);
+                requestAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        });
+
+        ipcRenderer.on("mergintResphonse", (event,args)=>{
+            try{ 
+                setResphonseVisible(true);
+                setMergintVisible(true);
+                mergintResphonseAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        });
+
+        ipcRenderer.on("interruptReshponse", (event,args)=>{
+            try{ 
+                setResphonseVisible(true);
+                setInterruptVisible(true);
+                interruptReshponseAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        });
+
+        ipcRenderer.on("overtakingReshponse", (event,args)=>{
+            try{ 
+                setResphonseVisible(true);
+                setOvertakingVisible(true);
+                overtakingReshponseAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        });
+        ipcRenderer.on("concessionResphonse", (event,args)=>{
+            try{ 
+                setResphonseVisible(true);
+                setConcessionVisible(true);
+                concessionResphonseAudio(true);
+            }catch(err){
+                console.log(err);
+            }
+        }); 
+
+
+
         ipcRenderer.on("error",(event,args)=>{
             console.log(args);
         });
         return () => {
             ipcRenderer.removeAllListeners("latlon");
             ipcRenderer.removeAllListeners("detection");
-            ipcRenderer.removeAllListeners("request");
+            ipcRenderer.removeAllListeners("mergintRequest");
+
+            ipcRenderer.removeAllListeners("mergintResphonse");
+            ipcRenderer.removeAllListeners("concessionResphonse");
+            ipcRenderer.removeAllListeners("interruptReshponse");
             ipcRenderer.removeAllListeners("error");
         };
     }, [map, feature, vector, moving])
     return (
         <>
             <AlertImage img={'images/detection.png'} left={50} visible={detectionVisible} setVisible={setDetectionVisible} />
-            <AlertImage img={'images/request.png'} left={300} visible={detectionVisible} setVisible={setDetectionVisible} />
+            <AlertImage img={'images/request.png'} left={300} visible={requestVisible} setVisible={setRequestVisible} />
+            <AlertImage img={'images/resphonse.png'} left={300} visible={resphonseVisible} setVisible={setResphonseVisible} />
+            <IntentionsImage img={'images/mergint.gif'} right={10} visible={mergintVisible} setVisible={setMergintVisible} />
+            <IntentionsImage img={'images/interrupt.gif'} right={10} visible={interruptVisible} setVisible={setInterruptVisible} />
+            <IntentionsImage img={'images/overtaking.gif'} right={10} visible={overtakingVisible} setVisible={setOvertakingVisible} />
+            <IntentionsImage img={'images/concession.gif'} right={10} visible={concessionVisible} setVisible={setConcessionVisible} />
             <MapContext.Provider value={map}>
                 <div style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                     <div style={{ flexGrow: 1, backgroundColor: 'gray' }} >

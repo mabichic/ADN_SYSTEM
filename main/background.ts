@@ -30,7 +30,6 @@ if (isProd) {
     mainWindow.webContents.openDevTools();
     ipcMain.on("connectClient", (event, res)=> connectClient(mainWindow,res)); 
     ipcMain.on("closeClient", (event, res)=> closeClient()); 
-    mainWindow.webContents.send("error", "why...");
   }
 })();
 

@@ -21,7 +21,7 @@ export default function Settings({ open, handleClose }) {
 
     const [value, setValue] = useState(
         {
-            ip: 'locahost',
+            ip: '127.0.0.1',
             port: '8107'
         }
     );
