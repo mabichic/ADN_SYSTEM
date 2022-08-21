@@ -48,11 +48,24 @@ function HdMap({ children, zoom, center }) {
     const [requestVisible, setRequestVisible] = useState(false);
     const [resphonseVisible, setResphonseVisible] = useState(false);
     const [feature, setFeature] = useState(null);
+    const [feature2, setFeature2] = useState(null);
+    const [feature3, setFeature3] = useState(null);
     const [vector, setVector] = useState(null);
     const [moving, setMoving] = useState(false);
     const iconStyle = new Style({
         image: new Icon({
             src: 'images/car.png',
+        }),
+    });
+
+    const iconStyle2 = new Style({
+        image: new Icon({
+            src: 'images/car2.png',
+        }),
+    });
+    const iconStyle3 = new Style({
+        image: new Icon({
+            src: 'images/car2.png',
         }),
     });
 
@@ -90,6 +103,16 @@ function HdMap({ children, zoom, center }) {
             rainfall: 500,
         });
 
+        const iconFeature2 = new Feature({
+            geometry: new Point([0,0]),
+            population: 4000,
+            rainfall: 500,
+        });
+        const iconFeature3 = new Feature({
+            geometry: new Point([0,0]),
+            population: 4000,
+            rainfall: 500,
+        });
 
         let click = false;
         iconFeature.setStyle(() => {
@@ -102,7 +125,7 @@ function HdMap({ children, zoom, center }) {
         });
 
         const vectorSource = new VectorSource({
-            features: [iconFeature],
+            features: [iconFeature, iconFeature2, iconFeature3],
         });
 
         const vectorLayer = new VectorLayer({
@@ -111,6 +134,8 @@ function HdMap({ children, zoom, center }) {
         });
         mapObject.addLayer(vectorLayer);
         setFeature(iconFeature);
+        setFeature2(iconFeature2);
+        setFeature3(iconFeature3);
         setVector(vectorSource);
         const clickEvt = () => {
             if (click) return;
@@ -159,6 +184,59 @@ function HdMap({ children, zoom, center }) {
                 if (moving) {
                     map.getView().setCenter(coor);
                 }
+                
+            }catch(err){
+                console.log(err);
+            }
+
+        });
+
+        ipcRenderer.on("latlon2", (event, args) => {
+            try {
+                let json = args;
+                let coor = proj4('EPSG:4326', 'EPSG:5186', [Number(json.lon), Number(json.lat)]);
+                
+                feature2.setStyle(() => {
+                    const x = Math.sin((i * Math.PI) / 180) * 0.5;
+                    const y = Math.sin((j * Math.PI) / 180) * 0.5;
+                    
+                    iconStyle2.getImage().setScale([x, y]);
+                    iconStyle2.getImage().setRotation((Math.PI / 180) * Number(json.heading),)
+                    return iconStyle2
+                });
+                
+                feature2.getGeometry().setCoordinates(coor);
+                // vector.changed();
+                
+                // if (moving) {
+                //     map.getView().setCenter(coor);
+                // }
+                
+            }catch(err){
+                console.log(err);
+            }
+
+        });
+        ipcRenderer.on("latlon3", (event, args) => {
+            try {
+                let json = args;
+                let coor = proj4('EPSG:4326', 'EPSG:5186', [Number(json.lon), Number(json.lat)]);
+                
+                feature3.setStyle(() => {
+                    const x = Math.sin((i * Math.PI) / 180) * 0.5;
+                    const y = Math.sin((j * Math.PI) / 180) * 0.5;
+                    
+                    iconStyle3.getImage().setScale([x, y]);
+                    iconStyle3.getImage().setRotation((Math.PI / 180) * Number(json.heading),)
+                    return iconStyle3
+                });
+                
+                feature3.getGeometry().setCoordinates(coor);
+                // vector.changed();
+                
+                // if (moving) {
+                //     map.getView().setCenter(coor);
+                // }
                 
             }catch(err){
                 console.log(err);

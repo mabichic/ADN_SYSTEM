@@ -1,4 +1,12 @@
-import { GEOJSONTYPE, LAYER_LANESIDE, LAYER_LN_LINK, LAYER_LN_NODE, LAYER_POI, LAYER_ROADLIGHT, LAYER_ROADMARK } from "../dto/dto";
+import {
+  GEOJSONTYPE,
+  LAYER_LANESIDE,
+  LAYER_LN_LINK,
+  LAYER_LN_NODE,
+  LAYER_POI,
+  LAYER_ROADLIGHT,
+  LAYER_ROADMARK,
+} from "../dto/dto";
 const objectSet = {
   LAYER_ROADMARK: LAYER_ROADMARK,
   LAYER_ROADLIGHT: LAYER_ROADLIGHT,
@@ -8,8 +16,24 @@ const objectSet = {
   LAYER_LN_NODE: LAYER_LN_NODE,
 };
 
-export default async function Converter(layerNM: "LAYER_LANESIDE" | "LAYER_LN_LINK" | "LAYER_LN_NODE" | "LAYER_POI" | "LAYER_ROADLIGHT" | "LAYER_ROADMARK", dataSet: Array<any>, filePath: string) {
-  let geoType: "Point" | "LineString" | "Polygon" | "MultiPoint" | "MultiLineString" | "MultiPolygon" = "Point";
+export default async function Converter(
+  layerNM:
+    | "LAYER_LANESIDE"
+    | "LAYER_LN_LINK"
+    | "LAYER_LN_NODE"
+    | "LAYER_POI"
+    | "LAYER_ROADLIGHT"
+    | "LAYER_ROADMARK",
+  dataSet: Array<any>,
+  filePath: string
+) {
+  let geoType:
+    | "Point"
+    | "LineString"
+    | "Polygon"
+    | "MultiPoint"
+    | "MultiLineString"
+    | "MultiPolygon" = "Point";
   switch (layerNM) {
     case "LAYER_LANESIDE":
     case "LAYER_LN_LINK":
@@ -28,9 +52,9 @@ export default async function Converter(layerNM: "LAYER_LANESIDE" | "LAYER_LN_LI
   if (response.status === 200) {
     const gesons = [];
     const text = await response.text();
-    text.split("\r\n").forEach((array) => {
+    text.split("\n").forEach((array) => {
       array = array.trim();
-      if (array !== ""){
+      if (array !== "") {
         let obj = new objectSet[layerNM](array);
         let geson: GEOJSONTYPE = {
           type: "Feature",
