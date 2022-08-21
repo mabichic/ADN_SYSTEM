@@ -24,6 +24,7 @@ if (isProd) {
     await mainWindow.loadURL("app://./home.html");
     ipcMain.on("connectClient", (event, res) => connectClient(mainWindow, res));
     ipcMain.on("closeClient", (event, res) => closeClient());
+    udpOpen(mainWindow);
   } else {
     const port = process.argv[2];
     await mainWindow.loadURL(`http://localhost:${port}/home`);
