@@ -33,6 +33,8 @@ if (isProd) {
     ipcMain.on("connectClient", (event, res) => connectClient(mainWindow, res));
     ipcMain.on("closeClient", (event, res) => closeClient());
   }
+  mainWindow.setMenuBarVisibility(false);
+  mainWindow.maximize();
 })();
 
 app.on("window-all-closed", () => {
