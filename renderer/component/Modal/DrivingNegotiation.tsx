@@ -44,7 +44,6 @@ const Step1Card = ({ text, img, onClickFn }) => {
     )
 }
 export default function DrivingNegotiation({ handleClose, open, serviceHandleOpen }) {
-    console.log("얘는아닐꺼고");
     const [activeStep, setActiveStep] = useState(0);
     const steps = ['협력주행 서비스를 선택하세요.', '세부 협력주행 서비스를 선택하세요'];
     const [skipped, setSkipped] = useState(new Set<number>());

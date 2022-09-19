@@ -7,9 +7,6 @@ let server = dgram.createSocket("udp4");
 
 export default function udpOpen(mainWindow) {
   server.on("message", (msg, rinfo) => {
-    //    console.log(`server got: ${msg} from ${rinfo.address}:${rinfo.port}`);
-
-    console.log(msg);
     let data = msg.toJSON();
     /*
     0: None
@@ -39,8 +36,6 @@ export default function udpOpen(mainWindow) {
 12: Class D(양보요청) 종료
     */
 
-    // let data = msg.toString();
-    // console.log(data);
     let carNum;
     let mission;
     let lat, lon, heading;
@@ -58,19 +53,61 @@ export default function udpOpen(mainWindow) {
       mission = msg.slice(1, 3).readInt16BE();
     }
 
-    console.log(carNum);
+    if (mission !== 0) {
+      console.log("thisMission : " + mission);
+    }
     let sendFn;
     if (carNum === 0) {
       sendFn = "latlon";
     } else if (carNum === 1) {
       sendFn = "latlon2";
       mainWindow.webContents.send("detection", true);
-      if (mission === 1) {
-        mainWindow.webContents.send("mergintRequest", true);
-      }
     } else if (carNum === 2) {
       sendFn = "latlon3";
       mainWindow.webContents.send("detection", true);
+    }
+
+    if (carNum === 1 || carNum === 2) {
+      if (mission === 1 || mission === 2) {
+        mainWindow.webContents.send("mergintRequest");
+      }
+      if (mission === 4 || mission === 5) {
+        //끼어들기 interruptRequest
+        mainWindow.webContents.send("interruptRequest");
+      }
+      if (mission === 7 || mission === 8) {
+        //추월
+        mainWindow.webContents.send("overtakingRequest");
+      }
+      if (mission === 10 || mission === 11) {
+        //양보요청
+        mainWindow.webContents.send("concessionRequest");
+      }
+      if (mission === 12 || mission == 13) {
+        //양보요청 2
+        mainWindow.webContents.send("concession2Request");
+      }
+    } else if (carNum === 0) {
+      if (mission === 1 || mission === 2) {
+        //우합류
+        mainWindow.webContents.send("mergintResphonse");
+      }
+      if (mission === 4 || mission === 5) {
+        //끼어들기 interruptRequest
+        mainWindow.webContents.send("interruptReshponse");
+      }
+      if (mission === 7 || mission === 8) {
+        //추월
+        mainWindow.webContents.send("overtakingReshponse");
+      }
+      if (mission === 10 || mission === 11) {
+        //양보요청
+        mainWindow.webContents.send("concessionResphonse");
+      }
+      if (mission === 12 || mission == 13) {
+        //양보요청 2
+        mainWindow.webContents.send("concession2Resphonse");
+      }
     }
     if (typeof sendFn !== "undefined") {
       mainWindow.webContents.send(sendFn, {
@@ -79,43 +116,6 @@ export default function udpOpen(mainWindow) {
         heading: heading,
       });
     }
-
-    // if()
-
-    // if (data.substring(6, 10) === "2b00") {
-    //   lat =
-    //     Buffer.from(data.substring(24, 32), "hex").readInt32LE() * 0.0000001;
-    //   lon =
-    //     Buffer.from(data.substring(32, 40), "hex").readInt32LE() * 0.0000001;
-    //   heading = Buffer.from(data.substring(56, 60), "hex").readInt16LE() * 0.01;
-    //   console.log(lat, lon, heading);
-    // } else if (data.substring(6, 10) === "002b") {
-    //   lat =
-    //     Buffer.from(data.substring(24, 32), "hex").readInt32BE() * 0.0000001;
-    //   lon =
-    //     Buffer.from(data.substring(32, 40), "hex").readInt32BE() * 0.0000001;
-    //   heading = Buffer.from(data.substring(56, 60), "hex").readInt16BE() * 0.01;
-    // }
-    // carNum = data.substring(12, 20);
-    // if (carNum === "00000000") {
-    //   mainWindow.webContents.send("latlon", {
-    //     lat: lat,
-    //     lon: lon,
-    //     heading: heading,
-    //   });
-    // } else if (carNum === "00000001") {
-    //   mainWindow.webContents.send("latlon2", {
-    //     lat: lat,
-    //     lon: lon,
-    //     heading: heading,
-    //   });
-    // } else if (carNum === "00000002") {
-    //   mainWindow.webContents.send("latlon3", {
-    //     lat: lat,
-    //     lon: lon,
-    //     heading: heading,
-    //   });
-    // }
   });
 
   server.on("listening", () => {

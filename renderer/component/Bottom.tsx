@@ -8,8 +8,6 @@ import Settings from './Modal/Settings';
 const Test = ({ serviceOpen, setServiceOpen }) => {
     // const [toggle] = useAudio("/audio/step1.wav");
     // const [open, setOepn] = useState(false);
-    console.log(setServiceOpen);
-    console.log(serviceOpen);
     const [step, setStep] = useState(0);
     const stepText = ['BSM 방송을 시작합니다.', '커넥티드카 접근이 감지되었습니다.', '양보를 요청합니다', '커넥티크카 접근이 감지되었습니다.', '운행상태로 복귀합니다']
     const stepImg = ["/images/class1.gif", "/images/classA-1.gif", "/images/step3.png", "/images/classA-1.gif",]
@@ -21,7 +19,6 @@ const Test = ({ serviceOpen, setServiceOpen }) => {
         setServiceOpen(false);
     }
     const clickEvt = () => {
-        console.log(step);
         setServiceOpen(false);
         if (step === 4) {
             setServiceOpen(false);

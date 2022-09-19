@@ -91,6 +91,14 @@ function HdMap({ children, zoom, center }) {
     "/audio/request.mp3"
   );
 
+  const [concession2ResphonseVisible, setConcession2ResphonseVisible] = useTimer(
+    "concession2Resphonse",
+    "/audio/concession_resphonse.mp3"
+  );
+  const [concession2RequestVisible, setConcession2RequestVisible] = useTimer(
+    "concession2Request",
+    "/audio/request.mp3"
+  );
   const [feature, setFeature] = useState(null);
   const [feature2, setFeature2] = useState(null);
   const [feature3, setFeature3] = useState(null);
@@ -140,7 +148,6 @@ function HdMap({ children, zoom, center }) {
     setMap(mapObject);
     mapObject.on("click", () => {
       setMoving((prevState) => !prevState);
-      console.log(moving);
     });
     const iconFeature = new Feature({
       geometry: new Point([232937.72578125, 420510.51140625]),
@@ -461,6 +468,19 @@ function HdMap({ children, zoom, center }) {
         setVisible={setConcessionResphonseVisible}
       />
       
+      <AlertImages
+        alertImageURL={"images/request.png"}
+        visible={concession2RequestVisible}
+        intentionsImageURL={"images/concession2.gif"}
+        setVisible={setConcession2RequestVisible}
+      />
+      <AlertImages
+        alertImageURL={"images/resphonse.png"}
+        visible={concession2ResphonseVisible}
+        intentionsImageURL={"images/concession2.gif"}
+        setVisible={setConcession2ResphonseVisible}
+      />
+
       <MapContext.Provider value={map}>
         <div
           style={{ display: "flex", flexDirection: "column", height: "100%" }}

@@ -26,10 +26,6 @@ export default function connectClient(mainWindow, res) {
           let heading =
             Buffer.from(json.data.substring(57, 61), "hex").readInt16LE() *
             0.01;
-          // console.log(json.data);
-          // console.log(json.data.substring(57, 61));
-          // console.log(heading * 0.01);
-          // console.log(`lat : ${lat} / lon : ${lon} / heading : ${heading}`);
           mainWindow.webContents.send("latlon", {
             lat: lat,
             lon: lon,
@@ -86,7 +82,6 @@ export default function connectClient(mainWindow, res) {
           let heading =
             Buffer.from(json.data.substring(57, 61), "hex").readInt16BE() *
             0.01;
-          // console.log(`lat : ${lat} / lon : ${lon} / heading : ${heading}`);
           mainWindow.webContents.send("latlon2", {
             lat: lat,
             lon: lon,
@@ -102,7 +97,6 @@ export default function connectClient(mainWindow, res) {
           let heading =
             Buffer.from(json.data.substring(57, 61), "hex").readInt16BE() *
             0.01;
-          // console.log(`lat : ${lat} / lon : ${lon} / heading : ${heading}`);
           mainWindow.webContents.send("latlon3", {
             lat: lat,
             lon: lon,

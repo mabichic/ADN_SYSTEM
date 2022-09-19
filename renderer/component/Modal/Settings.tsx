@@ -41,8 +41,6 @@ export default function Settings({ open, handleClose }) {
     };
     const connectClient = useCallback(() => {
         ipcRenderer.send("connectClient", value);
-        console.log(value);
-        console.log(ipcRenderer);
         setConnect((value) => (!value));
     }, [value]);
     const closeClient = useCallback(() => {
