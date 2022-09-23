@@ -422,12 +422,6 @@ function HdMap({ children, zoom, center }) {
         intentionsImageURL={"images/mergint.gif"}
         setVisible={setMergintRequestVisible}
       />
-      <AlertImages
-        alertImageURL={"images/resphonse.png"}
-        visible={mergintResphonseVisible}
-        intentionsImageURL={"images/mergint.gif"}
-        setVisible={setMergintResphonseVisible}
-      />
 
       <AlertImages
         alertImageURL={"images/request.png"}
