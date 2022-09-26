@@ -61,7 +61,7 @@ function HdMap({ children, zoom, center }) {
   );
   const [mergintRequestVisible, setMergintRequestVisible] = useTimer(
     "mergintRequest",
-    "/audio/request.mp3"
+    "/audio/mergint_request.mp3"
   );
 
   const [interruptResphonseVisible, setInterruptResphonseVisible] = useTimer(
@@ -70,7 +70,7 @@ function HdMap({ children, zoom, center }) {
   );
   const [interruptRequestVisible, setInterruptRequestVisible] = useTimer(
     "interruptRequest",
-    "/audio/request.mp3"
+    "/audio/interrupt_request.mp3"
   );
 
   const [overtakingReshponseVisible, setOvertakingReshponseVisible] = useTimer(
@@ -79,7 +79,7 @@ function HdMap({ children, zoom, center }) {
   );
   const [overtakingRequestVisible, setOvertakingRequestVisible] = useTimer(
     "overtakingRequest",
-    "/audio/request.mp3"
+    "/audio/overtaking_request.mp3"
   );
 
   const [concessionResphonseVisible, setConcessionResphonseVisible] = useTimer(
@@ -88,7 +88,7 @@ function HdMap({ children, zoom, center }) {
   );
   const [concessionRequestVisible, setConcessionRequestVisible] = useTimer(
     "concessionRequest",
-    "/audio/request.mp3"
+    "/audio/concession_resphonse.mp3"
   );
 
   const [concession2ResphonseVisible, setConcession2ResphonseVisible] = useTimer(
@@ -97,7 +97,7 @@ function HdMap({ children, zoom, center }) {
   );
   const [concession2RequestVisible, setConcession2RequestVisible] = useTimer(
     "concession2Request",
-    "/audio/request.mp3"
+    "/audio/concession_resphonse.mp3"
   );
   const [feature, setFeature] = useState(null);
   const [feature2, setFeature2] = useState(null);

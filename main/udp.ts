@@ -53,9 +53,11 @@ export default function udpOpen(mainWindow) {
       mission = msg.slice(1, 3).readInt16BE();
     }
 
-    if (mission !== 0) {
-      console.log("thisMission : " + mission);
-    }
+    // if (mission !== 0) {
+    //   console.log("thisMission : " + mission);
+    // }
+    // console.log(carNum);
+    // console.log("thisMission : " + mission);
     let sendFn;
     if (carNum === 0) {
       sendFn = "latlon";
@@ -69,15 +71,15 @@ export default function udpOpen(mainWindow) {
 
     if (carNum === 1 || carNum === 2) {
       if (mission === 1 || mission === 2) {
-        mainWindow.webContents.send("mergintRequest");
+        mainWindow.webContents.send("mergintResphonse");
       }
       if (mission === 4 || mission === 5) {
         //끼어들기 interruptRequest
-        mainWindow.webContents.send("interruptRequest");
+        mainWindow.webContents.send("interruptReshponse");
       }
       if (mission === 7 || mission === 8) {
         //추월
-        mainWindow.webContents.send("overtakingRequest");
+        mainWindow.webContents.send("overtakingReshponse");
       }
       if (mission === 10 || mission === 11) {
         //양보요청
@@ -90,15 +92,15 @@ export default function udpOpen(mainWindow) {
     } else if (carNum === 0) {
       if (mission === 1 || mission === 2) {
         //우합류
-        mainWindow.webContents.send("mergintResphonse");
+        mainWindow.webContents.send("mergintRequest");
       }
       if (mission === 4 || mission === 5) {
         //끼어들기 interruptRequest
-        mainWindow.webContents.send("interruptReshponse");
+        mainWindow.webContents.send("interruptRequest");
       }
       if (mission === 7 || mission === 8) {
         //추월
-        mainWindow.webContents.send("overtakingReshponse");
+        mainWindow.webContents.send("overtakingRequest");
       }
       if (mission === 10 || mission === 11) {
         //양보요청
